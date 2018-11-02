@@ -121,7 +121,9 @@ MainWindow::MainWindow(QWidget *parent)
             ui->writeSize->setCurrentIndex(lastPossibleIndex);
     });
 
-	ui->writeButton->setEnabled(false);
+	
+
+	this->ModBusDebugMode(false);
 }
 
 MainWindow::~MainWindow()
@@ -546,15 +548,17 @@ void MainWindow::processRelayControls(QModbusDataUnit _modbusData)
 
 											if (relayValue) {
 												
-												mRelaylabel[relayaddr]->setStyleSheet("color:red;");												
+												mRelaylabel[relayaddr]->setStyleSheet("color:green;");												
 												mRelayButton[relayaddr]->setText(tr("on"));
+												mRelayButton[relayaddr]->setStyleSheet("color:green;");
 
 											//	mRelayButton[relayaddr]->setValue(true);
 												//mRelayButton[relayaddr]->setValue(false);
 											}else{
 											
-												mRelaylabel[relayaddr]->setStyleSheet("color:gray;");												
+												mRelaylabel[relayaddr]->setStyleSheet("color:red;");												
 												mRelayButton[relayaddr]->setText(tr("off"));
+												mRelayButton[relayaddr]->setStyleSheet("color:red;");
 												
 												//mRelayButton[relayaddr]->setValue(false);
 												//mRelayButton[relayaddr]->setValue(true);
@@ -605,4 +609,17 @@ void MainWindow::initButtonRelay()
 	connect(ui->pushButton_read_all_relay,SIGNAL(clicked()),this,SLOT(on_relay_read_all()));
 	connect(ui->pushButton_open_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_open_all()));
 	connect(ui->pushButton_close_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_close_all()));
+}
+
+void MainWindow::ModBusDebugMode(bool _visible)
+{
+	this->ui->writeGroupBox->setVisible(_visible);
+	this->ui->readGroupBox->setVisible(_visible);
+	this->ui->writeButton->setEnabled(_visible);
+	this->ui->ctrlGroupBox->setVisible(_visible);
+}
+
+void MainWindow::InitSerialPortMode()
+{
+
 }

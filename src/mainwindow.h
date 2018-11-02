@@ -88,6 +88,8 @@ private:
     QModbusDataUnit writeRequest() const;
 	void initActionsRelay();
 	void initButtonRelay();
+	void ModBusDebugMode(bool _visible);
+	void InitSerialPortMode();
 private slots:
     void on_connectButton_clicked();
     void onStateChanged(int state);
