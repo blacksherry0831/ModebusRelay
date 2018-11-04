@@ -57,6 +57,10 @@
 #include <QPushButton>
 #include <SwitchButton.hpp>
 
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QDebug>
+
 QT_BEGIN_NAMESPACE
 
 class QModbusClient;
@@ -89,7 +93,9 @@ private:
 	void initActionsRelay();
 	void initButtonRelay();
 	void ModBusDebugMode(bool _visible);
-	void InitSerialPortMode();
+	void InitSerialPortMode(bool _init);
+	void InitSerialPortCombox(bool _init);
+	QString GetSerialPortName();
 private slots:
     void on_connectButton_clicked();
     void onStateChanged(int state);
@@ -113,6 +119,7 @@ private slots:
 	void process_resopnse_modbus(QModbusReply* reply);
 private:
 	QLabel* mRelaylabel[4];
+	QLabel* mRelayLabelStatus[4];
 	QPushButton* mRelayButton[4];
 	void initRelayControls();
 	void initRelayControlsEvent();

@@ -124,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent)
 	
 
 	this->ModBusDebugMode(false);
+	this->InitSerialPortMode(true);
 }
 
 MainWindow::~MainWindow()
@@ -193,7 +194,7 @@ void MainWindow::on_connectButton_clicked()
     if (modbusDevice->state() != QModbusDevice::ConnectedState) {
         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
             modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-                ui->portEdit->text());
+                GetSerialPortName());
             modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
                 m_settingsDialog->settings().parity);
             modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
@@ -472,7 +473,10 @@ void MainWindow::initRelayControls()
 	mRelayButton[2]=ui->pushButtonRelay2;
 	mRelayButton[3]=ui->pushButtonRelay3;
 
-
+	mRelayLabelStatus[0] = ui->label_0_relay_status;
+	mRelayLabelStatus[1] = ui->label_1_relay_status;
+	mRelayLabelStatus[2] = ui->label_2_relay_status;
+	mRelayLabelStatus[3] = ui->label_3_relay_status;
 
 }
 
@@ -482,20 +486,19 @@ void MainWindow::initRelayControlsEvent()
 	relay4_t.relay_addr = ui->serverEdit->value();
 
 #if 1
+
 	for (size_t bi = 0; bi < relay4_t.relay_num; bi++){
 
 		auto* button = mRelayButton[bi];
 #if 1
 		connect(button, &QPushButton::clicked, this, [this, button, bi](bool _status) {
-
+			
 			int data_t = 0;
-			if (button->text().compare("on") == 0) {
+			if (button->text().compare("open")==0) {
+				data_t = 1;
+			}else {
 				data_t = 0;
 			}
-			else {
-				data_t = 1;
-			}
-
 			relay4 relay4_t;
 			relay4_t.relay_addr = ui->serverEdit->value();
 			QModbusDataUnit   relay_all = relay4_t.GetWriteOneModbusData(bi, data_t);
@@ -523,11 +526,8 @@ connect(button,&SwitchButton::valueChanged, this, [this, button,bi](bool _status
 	
 		});
 #endif // 0
-
-		
-		
-
 	}
+
 #endif // 0
 
 
@@ -537,33 +537,31 @@ connect(button,&SwitchButton::valueChanged, this, [this, button,bi](bool _status
 
 void MainWindow::processRelayControls(QModbusDataUnit _modbusData)
 {
-	
+	const QString on_color = "color:green;";
+	const QString off_color = "color:red;";
+
+
 	for (uint i = 0; i <_modbusData.valueCount(); i++) {
-	
+				QString status_color;
 				int relayaddr = i + _modbusData.startAddress();
 				int relayValue = _modbusData.value(i);
 				if (_modbusData.registerType()==QModbusDataUnit::Coils)	{
-						
+								
 									if (relayaddr>=0 && relayaddr<4){
+													
 
-											if (relayValue) {
-												
-												mRelaylabel[relayaddr]->setStyleSheet("color:green;");												
-												mRelayButton[relayaddr]->setText(tr("on"));
-												mRelayButton[relayaddr]->setStyleSheet("color:green;");
-
-											//	mRelayButton[relayaddr]->setValue(true);
-												//mRelayButton[relayaddr]->setValue(false);
-											}else{
-											
-												mRelaylabel[relayaddr]->setStyleSheet("color:red;");												
-												mRelayButton[relayaddr]->setText(tr("off"));
-												mRelayButton[relayaddr]->setStyleSheet("color:red;");
-												
-												//mRelayButton[relayaddr]->setValue(false);
-												//mRelayButton[relayaddr]->setValue(true);
-												
+											if (relayValue) {										
+												status_color = on_color;
+												mRelayLabelStatus[relayaddr]->setText(tr("on"));
+												mRelayButton[relayaddr]->setText(tr("close"));
+											}else{												
+												status_color = off_color;
+												mRelayButton[relayaddr]->setText(tr("open"));
+												mRelayLabelStatus[relayaddr]->setText(tr("off"));												
 											}
+											
+											mRelaylabel[relayaddr]->setStyleSheet(status_color);
+											mRelayLabelStatus[relayaddr]->setStyleSheet(status_color);
 
 									}
 
@@ -617,9 +615,40 @@ void MainWindow::ModBusDebugMode(bool _visible)
 	this->ui->readGroupBox->setVisible(_visible);
 	this->ui->writeButton->setEnabled(_visible);
 	this->ui->ctrlGroupBox->setVisible(_visible);
+
 }
 
-void MainWindow::InitSerialPortMode()
+void MainWindow::InitSerialPortMode(bool _init)
 {
+
+	this->ui->comboBox_serial_port->setVisible(_init);
+
+	this->ui->portEdit->setVisible(!_init);
+
+	
+	this->InitSerialPortCombox(_init);
+
+
+}
+
+QString MainWindow::GetSerialPortName()
+{
+	return ui->comboBox_serial_port->currentText();
+}
+
+void MainWindow::InitSerialPortCombox(bool _init)
+{
+	this->ui->comboBox_serial_port->clear();
+
+	foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+	{
+		qDebug() << "Name : " << info.portName();
+		qDebug() << "Description : " << info.description();
+		qDebug() << "Manufacturer: " << info.manufacturer();
+		qDebug() << "Serial Number: " << info.serialNumber();
+		qDebug() << "System Location: " << info.systemLocation();
+
+		this->ui->comboBox_serial_port->addItem(info.portName());
+	}
 
 }

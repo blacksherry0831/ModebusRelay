@@ -52,6 +52,7 @@
 
 #include <QApplication>
 #include <QLoggingCategory>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -59,6 +60,23 @@ int main(int argc, char *argv[])
     // right now we always need it
     QLoggingCategory::setFilterRules(QStringLiteral("qt.modbus* = true"));
     QApplication a(argc, argv);
+
+    QTranslator tsor;           //创建翻译器
+    
+	if (tsor.load("main_widget_zh.qm"))
+	{
+		//加载语言包
+		if ( a.installTranslator(&tsor))
+		{
+			//安装翻译器
+			qDebug() << "success";
+
+		}
+	}
+	
+	    
+       
+
     MainWindow w;
     w.show();
 

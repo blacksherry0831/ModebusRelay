@@ -32,6 +32,8 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
+TRANSLATIONS += Resource/main_widget_zh.ts \
+               Resource/main_widget_en.ts
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
