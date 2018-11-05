@@ -125,6 +125,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 	this->ModBusDebugMode(false);
 	this->InitSerialPortMode(true);
+
+	int width = this->width();;
+	int height = this->height();
 }
 
 MainWindow::~MainWindow()
@@ -628,6 +631,7 @@ void MainWindow::InitSerialPortMode(bool _init)
 	
 	this->InitSerialPortCombox(_init);
 
+	this->setMaximumHeight(270);
 
 }
 
