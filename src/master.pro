@@ -1,5 +1,8 @@
 QT += serialbus serialport widgets
-requires(qtConfig(combobox))
+
+#requires(qtConfig(combobox))
+#qt-opensource-windows-x86-mingw492-5.6.3.exe
+
 
 TARGET = modbusmaster
 TEMPLATE = app
