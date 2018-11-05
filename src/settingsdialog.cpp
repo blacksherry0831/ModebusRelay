@@ -57,7 +57,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->parityCombo->setCurrentIndex(1);
+   
     ui->baudCombo->setCurrentText(QString::number(m_settings.baud));
     ui->dataBitsCombo->setCurrentText(QString::number(m_settings.dataBits));
     ui->stopBitsCombo->setCurrentText(QString::number(m_settings.stopBits));

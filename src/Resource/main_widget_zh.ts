@@ -162,7 +162,7 @@
         <location filename="../mainwindow.ui" line="585"/>
         <location filename="../mainwindow.ui" line="616"/>
         <source>Open/Close</source>
-        <translation type="unfinished"></translation>
+        <translation>打开/关闭</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="537"/>
@@ -197,42 +197,42 @@
     <message>
         <location filename="../mainwindow.ui" line="668"/>
         <source>&amp;Device</source>
-        <translation type="unfinished"></translation>
+        <translation>设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="677"/>
         <source>Too&amp;ls</source>
-        <translation type="unfinished"></translation>
+        <translation>工具</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="683"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>调试</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="697"/>
         <source>&amp;Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">连接</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="706"/>
         <source>&amp;Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">断开</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="715"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">退出</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="724"/>
         <source>&amp;Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">参数</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="729"/>
         <source>debug</source>
-        <translation type="unfinished"></translation>
+        <translation>调试</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="91"/>
@@ -257,12 +257,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="179"/>
         <source>Could not create Modbus master.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法创建Modbus服务器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="181"/>
         <source>Could not create Modbus client.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法创建Modbus客户端</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="214"/>
@@ -325,6 +325,7 @@
         <translation>关闭</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="497"/>
         <location filename="../mainwindow.cpp" line="559"/>
         <source>open</source>
         <translation>打开</translation>
@@ -333,6 +334,159 @@
         <location filename="../mainwindow.cpp" line="560"/>
         <source>off</source>
         <translation>断开</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../settingsdialog.ui" line="14"/>
+        <source>Modbus Settings</source>
+        <translation>Modbus 设置</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="36"/>
+        <source> ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="55"/>
+        <source>Response Timeout:</source>
+        <translation>响应超时</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="62"/>
+        <source>Apply</source>
+        <translation>接受</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="69"/>
+        <source>Serial Parameters</source>
+        <translation>串口参数</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="75"/>
+        <source>Parity:</source>
+        <translation>校验</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="83"/>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="88"/>
+        <source>Even</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="93"/>
+        <source>Odd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="98"/>
+        <source>Space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="103"/>
+        <source>Mark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="111"/>
+        <source>Baud Rate:</source>
+        <translation>波特率</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="119"/>
+        <source>1200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="124"/>
+        <source>2400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="129"/>
+        <source>4800</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="134"/>
+        <source>9600</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="139"/>
+        <source>19200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="144"/>
+        <source>38400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="149"/>
+        <source>57600</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="154"/>
+        <source>115200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="162"/>
+        <source>Data Bits:</source>
+        <translation type="unfinished">数据位数</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="170"/>
+        <source>5</source>
+        <translation type="unfinished">5</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="175"/>
+        <source>6</source>
+        <translation type="unfinished">6</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="180"/>
+        <source>7</source>
+        <translation type="unfinished">77</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="185"/>
+        <source>8</source>
+        <translation type="unfinished">8</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="193"/>
+        <source>Stop Bits:</source>
+        <translation>停止位</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="201"/>
+        <source>1</source>
+        <translation type="unfinished">1</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="206"/>
+        <source>3</source>
+        <translation type="unfinished">3</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="211"/>
+        <source>2</source>
+        <translation type="unfinished">2</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="222"/>
+        <source>Number of retries:</source>
+        <translation>重试次数</translation>
     </message>
 </context>
 </TS>

@@ -494,7 +494,7 @@ void MainWindow::initRelayControlsEvent()
 		connect(button, &QPushButton::clicked, this, [this, button, bi](bool _status) {
 			
 			int data_t = 0;
-			if (button->text().compare("open")==0) {
+			if (button->text().compare(tr("open"))==0) {
 				data_t = 1;
 			}else {
 				data_t = 0;

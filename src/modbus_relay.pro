@@ -30,7 +30,8 @@ HEADERS += \
         mainwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    settingsdialog.ui
 
 TRANSLATIONS += Resource/main_widget_zh.ts \
                Resource/main_widget_en.ts
