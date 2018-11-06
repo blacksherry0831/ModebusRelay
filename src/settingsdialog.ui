@@ -35,6 +35,9 @@
      <property name="suffix">
       <string> ms</string>
      </property>
+     <property name="prefix">
+      <string notr="true"/>
+     </property>
      <property name="minimum">
       <number>-1</number>
      </property>
@@ -79,7 +82,7 @@
       <item row="0" column="1">
        <widget class="QComboBox" name="parityCombo">
         <property name="currentText">
-         <string>No</string>
+         <string notr="true">No</string>
         </property>
         <item>
          <property name="text">
@@ -118,7 +121,7 @@
       <item row="1" column="1">
        <widget class="QComboBox" name="baudCombo">
         <property name="currentText">
-         <string>9600</string>
+         <string notr="true">9600</string>
         </property>
         <item>
          <property name="text">
@@ -157,7 +160,7 @@
       <item row="2" column="1">
        <widget class="QComboBox" name="dataBitsCombo">
         <property name="currentText">
-         <string>8</string>
+         <string notr="true">8</string>
         </property>
         <item>
          <property name="text">
@@ -175,6 +178,9 @@
       </item>
       <item row="3" column="1">
        <widget class="QComboBox" name="stopBitsCombo">
+        <property name="currentText">
+         <string notr="true">1</string>
+        </property>
         <item>
          <property name="text">
           <string>1</string>
@@ -204,6 +210,9 @@
    </item>
    <item row="2" column="1">
     <widget class="QSpinBox" name="retriesSpinner">
+     <property name="prefix">
+      <string notr="true"/>
+     </property>
      <property name="value">
       <number>3</number>
      </property>

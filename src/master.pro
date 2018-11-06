@@ -8,8 +8,8 @@ TARGET = modbusmaster
 TEMPLATE = app
 CONFIG += c++11
 
-TRANSLATIONS += Resource/main_widget_zh.ts \
-               Resource/main_widget_en.ts
+TRANSLATIONS += translations/main_widget_zh.ts \
+               translations/main_widget_en.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -30,3 +30,6 @@ RESOURCES += \
 
 target.path = $$[QT_INSTALL_EXAMPLES]/serialbus/modbus/master
 INSTALLS += target
+
+DISTFILES += \
+    translations/main_widget_zh.ts

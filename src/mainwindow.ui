@@ -49,6 +49,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="prefix">
+           <string notr="true"/>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -127,7 +130,11 @@
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QComboBox" name="comboBox_serial_port"/>
+         <widget class="QComboBox" name="comboBox_serial_port">
+          <property name="currentText">
+           <string notr="true"/>
+          </property>
+         </widget>
         </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_2">
@@ -145,12 +152,15 @@
         <item row="0" column="4">
          <widget class="QLabel" name="label_10">
           <property name="text">
-           <string>Baud Rate</string>
+           <string>Baud Rate:</string>
           </property>
          </widget>
         </item>
         <item row="0" column="5">
          <widget class="QComboBox" name="comboBox_2">
+          <property name="currentText">
+           <string notr="true">9600</string>
+          </property>
           <item>
            <property name="text">
             <string>9600</string>
@@ -338,7 +348,7 @@
               <bool>false</bool>
              </property>
              <attribute name="headerVisible">
-              <bool>true</bool>
+              <bool>false</bool>
              </attribute>
             </widget>
            </item>
@@ -684,12 +694,15 @@
                <item>
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>Baud Rate</string>
+                  <string>Baud Rate:</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QComboBox" name="comboBox">
+                 <property name="currentText">
+                  <string notr="true">9600</string>
+                 </property>
                  <item>
                   <property name="text">
                    <string>9600</string>

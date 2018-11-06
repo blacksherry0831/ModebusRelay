@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
     QTranslator tsor;           //创建翻译器
     
-	if (tsor.load("main_widget_zh.qm"))
+    if (tsor.load("./translations/main_widget_zh.qm"))
 	{
 		//加载语言包
 		if ( a.installTranslator(&tsor))
