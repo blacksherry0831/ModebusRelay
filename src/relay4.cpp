@@ -43,3 +43,16 @@ QModbusDataUnit relay4::GetWriteOneModbusData(int _addr,int _data)
 	return modbusUnit;
 
 }
+
+ QModbusDataUnit relay4::GetWriteBaudRateModbusData(int _data)
+ {
+     const int ONE_DATA = 1;
+     const QModbusDataUnit::RegisterType RegisterType_t=QModbusDataUnit::RegisterType::HoldingRegisters;
+     const int relay_address_t=0;
+     QModbusDataUnit modbusUnit(RegisterType_t, relay_address_t, ONE_DATA);
+
+     modbusUnit.setValue(0, _data);
+
+     return modbusUnit;
+
+ }

@@ -117,6 +117,8 @@ private slots:
 	void request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr);
 
 	void process_resopnse_modbus(QModbusReply* reply);
+    void on_pushButton_modifiedBaudRate_clicked();
+
 private:
 	QLabel* mRelaylabel[4];
 	QLabel* mRelayLabelStatus[4];

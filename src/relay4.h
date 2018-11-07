@@ -21,5 +21,7 @@ public:
 
 	QModbusDataUnit GetWriteOneModbusData(int _addr, int _data);
 
+    QModbusDataUnit GetWriteBaudRateModbusData(int _data);
+
 };
 

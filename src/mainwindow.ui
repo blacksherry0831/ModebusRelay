@@ -699,7 +699,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="comboBox">
+                <widget class="QComboBox" name="comboBox_baudRateModified">
                  <property name="currentText">
                   <string notr="true">9600</string>
                  </property>
@@ -729,7 +729,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="pushButton_modifiedBaudRate">
                  <property name="text">
                   <string>Modified</string>
                  </property>

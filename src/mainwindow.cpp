@@ -610,6 +610,7 @@ void MainWindow::initButtonRelay()
 	connect(ui->pushButton_read_all_relay,SIGNAL(clicked()),this,SLOT(on_relay_read_all()));
 	connect(ui->pushButton_open_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_open_all()));
 	connect(ui->pushButton_close_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_close_all()));
+    connect(ui->pushButton_modifiedBaudRate, SIGNAL(clicked()), this, SLOT(on_pushButton_modifiedBaudRate_clicked()));
 }
 
 void MainWindow::ModBusDebugMode(bool _visible)
@@ -655,4 +656,17 @@ void MainWindow::InitSerialPortCombox(bool _init)
 		this->ui->comboBox_serial_port->addItem(info.portName());
 	}
 
+}
+
+void MainWindow::on_pushButton_modifiedBaudRate_clicked()
+{
+    relay4 relay4_t;
+    relay4_t.relay_addr = ui->serverEdit->value();
+
+
+   const int baudRate_t= this->ui->comboBox_baudRateModified->currentText().toInt();
+
+    QModbusDataUnit   modified_baudrate = relay4_t.GetWriteBaudRateModbusData(baudRate_t);
+
+    request_write_modbus_cient(modified_baudrate, relay4_t.relay_addr);
 }
