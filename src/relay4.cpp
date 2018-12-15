@@ -65,13 +65,13 @@ QStringList relay4::getSupportBaudRate()
   {
       QStringList baud_rate_t;
 
-      baud_rate_t.push_back(tr("1200"));
-      baud_rate_t.push_back(tr("2400"));
-      baud_rate_t.push_back(tr("4800"));
-      baud_rate_t.push_back(tr("9600"));
-      baud_rate_t.push_back(tr("14400"));
-      baud_rate_t.push_back(tr("19200"));
-      baud_rate_t.push_back(tr("38400"));
+      baud_rate_t.push_back(tr("1200"));//0
+      baud_rate_t.push_back(tr("2400"));//1
+      baud_rate_t.push_back(tr("4800"));//2
+      baud_rate_t.push_back(tr("9600"));//3
+      baud_rate_t.push_back(tr("14400"));//4
+      baud_rate_t.push_back(tr("19200"));//5
+      baud_rate_t.push_back(tr("38400"));//6
 
       return baud_rate_t;
   }
