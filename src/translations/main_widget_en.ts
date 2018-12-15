@@ -25,7 +25,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="72"/>
-        <location filename="../mainwindow.cpp" line="239"/>
+        <location filename="../mainwindow.cpp" line="240"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,6 +48,7 @@
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <location filename="../mainwindow.ui" line="708"/>
+        <location filename="../mainwindow.cpp" line="563"/>
         <source>9600</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,103 +264,103 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="91"/>
+        <location filename="../mainwindow.cpp" line="92"/>
         <source>Coils</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="92"/>
+        <location filename="../mainwindow.cpp" line="93"/>
         <source>Discrete Inputs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="93"/>
+        <location filename="../mainwindow.cpp" line="94"/>
         <source>Input Registers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="94"/>
+        <location filename="../mainwindow.cpp" line="95"/>
         <source>Holding Registers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="182"/>
+        <location filename="../mainwindow.cpp" line="183"/>
         <source>Could not create Modbus master.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="184"/>
+        <location filename="../mainwindow.cpp" line="185"/>
         <source>Could not create Modbus client.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="217"/>
+        <location filename="../mainwindow.cpp" line="218"/>
         <source>Connect failed: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="241"/>
+        <location filename="../mainwindow.cpp" line="242"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="257"/>
-        <location filename="../mainwindow.cpp" line="344"/>
-        <location filename="../mainwindow.cpp" line="404"/>
+        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="405"/>
         <source>Read error: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="272"/>
+        <location filename="../mainwindow.cpp" line="273"/>
         <source>Read response error: %1 (Mobus exception: 0x%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="276"/>
+        <location filename="../mainwindow.cpp" line="277"/>
         <source>Read response error: %1 (code: 0x%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="303"/>
-        <location filename="../mainwindow.cpp" line="421"/>
+        <location filename="../mainwindow.cpp" line="304"/>
+        <location filename="../mainwindow.cpp" line="422"/>
         <source>Write response error: %1 (Mobus exception: 0x%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="307"/>
-        <location filename="../mainwindow.cpp" line="426"/>
+        <location filename="../mainwindow.cpp" line="308"/>
+        <location filename="../mainwindow.cpp" line="427"/>
         <source>Write response error: %1 (code: 0x%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="317"/>
-        <location filename="../mainwindow.cpp" line="443"/>
+        <location filename="../mainwindow.cpp" line="318"/>
+        <location filename="../mainwindow.cpp" line="444"/>
         <source>Write error: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="456"/>
         <source>Address: %1, Value: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="558"/>
+        <location filename="../mainwindow.cpp" line="587"/>
         <source>on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
+        <location filename="../mainwindow.cpp" line="588"/>
         <source>close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="500"/>
-        <location filename="../mainwindow.cpp" line="562"/>
+        <location filename="../mainwindow.cpp" line="506"/>
+        <location filename="../mainwindow.cpp" line="591"/>
         <source>open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="563"/>
+        <location filename="../mainwindow.cpp" line="592"/>
         <source>off</source>
         <translation type="unfinished"></translation>
     </message>
@@ -428,6 +429,7 @@
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="128"/>
+        <location filename="../settingsdialog.cpp" line="96"/>
         <source>9600</source>
         <translation type="unfinished"></translation>
     </message>
@@ -484,6 +486,44 @@
     <message>
         <location filename="../settingsdialog.ui" line="207"/>
         <source>Number of retries:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>relay4</name>
+    <message>
+        <location filename="../relay4.cpp" line="68"/>
+        <source>1200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="69"/>
+        <source>2400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="70"/>
+        <source>4800</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="71"/>
+        <source>9600</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="72"/>
+        <source>14400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="73"/>
+        <source>19200</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="74"/>
+        <source>38400</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

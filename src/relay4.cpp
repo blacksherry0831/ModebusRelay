@@ -1,6 +1,6 @@
-#include "relay4.h"
+﻿#include "relay4.h"
 
-const int relay4::relay_address=0;
+const int relay4::relay_base_address=RELAY_4_BASE_ADDR;
 const int relay4::relay_num=4;
 
 
@@ -17,12 +17,12 @@ relay4::~relay4()
 
 QModbusDataUnit relay4::GetReadAllModbusData()
 {
-	return QModbusDataUnit(mRegisterType, relay_address,relay_num);
+    return QModbusDataUnit(mRegisterType, relay_base_address,relay_num);
 }
 
 QModbusDataUnit relay4::GetWriteAllModbusData(int _data)
 {
-	QModbusDataUnit modbusUnit(mRegisterType, relay_address, relay_num);
+    QModbusDataUnit modbusUnit(mRegisterType, relay_base_address, relay_num);
 	
 	
 	for (uint i = 0; i <  modbusUnit.valueCount(); i++) {
@@ -36,7 +36,7 @@ QModbusDataUnit relay4::GetWriteAllModbusData(int _data)
 QModbusDataUnit relay4::GetWriteOneModbusData(int _addr,int _data)
 {
 	const int ONE_DATA = 1;
-	QModbusDataUnit modbusUnit(mRegisterType, relay_address+ _addr, ONE_DATA);
+    QModbusDataUnit modbusUnit(mRegisterType, relay_base_address+ _addr, ONE_DATA);
 			
 	modbusUnit.setValue(0, _data);
 	
@@ -48,10 +48,11 @@ QModbusDataUnit relay4::GetWriteOneModbusData(int _addr,int _data)
  {
      const int ONE_DATA = 1;
      const QModbusDataUnit::RegisterType RegisterType_t=QModbusDataUnit::RegisterType::HoldingRegisters;
-     const int relay_address_t=0;
-     QModbusDataUnit modbusUnit(RegisterType_t, relay_address_t, ONE_DATA);
+     const int relay_register_address_t=RELAY_4_BAUD_RATE_WRITE_ADDRR;
+     QModbusDataUnit modbusUnit(RegisterType_t, relay_register_address_t, ONE_DATA);
 
      modbusUnit.setValue(0, _data);
+   //  modbusUnit.setValue(1, _data%256);
 
      return modbusUnit;
 

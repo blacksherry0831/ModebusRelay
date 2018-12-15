@@ -103,6 +103,7 @@ private:
 	void InitSerialPortMode(bool _init);
 	void InitSerialPortCombox(bool _init);
 	QString GetSerialPortName();
+    int GetSerialPortBaudrate();
 private slots:
     void on_connectButton_clicked();
     void onStateChanged(int state);
@@ -133,6 +134,7 @@ private:
 	void initRelayControls();
 	void initRelayControlsEvent();
 	void processRelayControls(QModbusDataUnit _data);
+    void showstatusbar_modbus_data(const QModbusDataUnit _unit);
 private:
     Ui::MainWindow *ui;
     QModbusReply *lastRequest;

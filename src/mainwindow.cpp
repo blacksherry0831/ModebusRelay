@@ -127,8 +127,10 @@ MainWindow::MainWindow(QWidget *parent)
 	this->ModBusDebugMode(false);
 	this->InitSerialPortMode(true);
 
-	int width = this->width();;
-	int height = this->height();
+    int width_t = this->width();;
+    int height_t = this->height();
+    this->setMaximumWidth(width_t*0.7);
+    this->setMaximumHeight(height_t);
 }
 
 MainWindow::~MainWindow()
@@ -202,7 +204,7 @@ void MainWindow::on_connectButton_clicked()
             modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
                 m_settingsDialog->settings().parity);
             modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-                m_settingsDialog->settings().baud);
+               this->GetSerialPortBaudrate());
             modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
                 m_settingsDialog->settings().dataBits);
             modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
@@ -464,6 +466,11 @@ void MainWindow::process_resopnse_modbus(QModbusReply* reply)
 
 }
 
+void MainWindow::showstatusbar_modbus_data(const QModbusDataUnit _unit)
+{
+    quint16 *data= _unit.values().data();
+}
+
 void MainWindow::initRelayControls()
 {
 
@@ -668,6 +675,11 @@ QString MainWindow::GetSerialPortName()
 	return ui->comboBox_serial_port->currentText();
 }
 
+int MainWindow::GetSerialPortBaudrate()
+{
+    return ui->comboBox_baudRateOpen->currentText().toInt();
+}
+
 void MainWindow::InitSerialPortCombox(bool _init)
 {
 	this->ui->comboBox_serial_port->clear();
@@ -691,7 +703,7 @@ void MainWindow::on_pushButton_modifiedBaudRate_clicked()
     relay4_t.relay_addr = ui->serverEdit->value();
 
 
-   const int baudRate_t= this->ui->comboBox_baudRateModified->currentText().toInt();
+   const int baudRate_t= this->ui->comboBox_baudRateModified->currentIndex();
 
     QModbusDataUnit   modified_baudrate = relay4_t.GetWriteBaudRateModbusData(baudRate_t);
 

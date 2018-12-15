@@ -25,7 +25,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="72"/>
-        <location filename="../mainwindow.cpp" line="239"/>
+        <location filename="../mainwindow.cpp" line="240"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
@@ -48,6 +48,7 @@
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <location filename="../mainwindow.ui" line="708"/>
+        <location filename="../mainwindow.cpp" line="563"/>
         <source>9600</source>
         <translation>9600</translation>
     </message>
@@ -263,103 +264,103 @@
         <translation>调试</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="91"/>
-        <source>Coils</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="92"/>
-        <source>Discrete Inputs</source>
-        <translation type="unfinished"></translation>
+        <source>Coils</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="93"/>
-        <source>Input Registers</source>
-        <translation type="unfinished"></translation>
+        <source>Discrete Inputs</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="94"/>
-        <source>Holding Registers</source>
-        <translation type="unfinished"></translation>
+        <source>Input Registers</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="182"/>
+        <location filename="../mainwindow.cpp" line="95"/>
+        <source>Holding Registers</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="183"/>
         <source>Could not create Modbus master.</source>
         <translation>无法创建 Modbus 服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="184"/>
+        <location filename="../mainwindow.cpp" line="185"/>
         <source>Could not create Modbus client.</source>
         <translation>无法创建Modbus客户端</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="217"/>
+        <location filename="../mainwindow.cpp" line="218"/>
         <source>Connect failed: </source>
         <translation>连接失败</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="241"/>
+        <location filename="../mainwindow.cpp" line="242"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="257"/>
-        <location filename="../mainwindow.cpp" line="344"/>
-        <location filename="../mainwindow.cpp" line="404"/>
+        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="405"/>
         <source>Read error: </source>
         <translation>读 错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="272"/>
+        <location filename="../mainwindow.cpp" line="273"/>
         <source>Read response error: %1 (Mobus exception: 0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="276"/>
+        <location filename="../mainwindow.cpp" line="277"/>
         <source>Read response error: %1 (code: 0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="303"/>
-        <location filename="../mainwindow.cpp" line="421"/>
+        <location filename="../mainwindow.cpp" line="304"/>
+        <location filename="../mainwindow.cpp" line="422"/>
         <source>Write response error: %1 (Mobus exception: 0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="307"/>
-        <location filename="../mainwindow.cpp" line="426"/>
+        <location filename="../mainwindow.cpp" line="308"/>
+        <location filename="../mainwindow.cpp" line="427"/>
         <source>Write response error: %1 (code: 0x%2)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="317"/>
-        <location filename="../mainwindow.cpp" line="443"/>
+        <location filename="../mainwindow.cpp" line="318"/>
+        <location filename="../mainwindow.cpp" line="444"/>
         <source>Write error: </source>
         <translation>写 错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="456"/>
         <source>Address: %1, Value: %2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="558"/>
+        <location filename="../mainwindow.cpp" line="587"/>
         <source>on</source>
         <translation>吸合</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
+        <location filename="../mainwindow.cpp" line="588"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="500"/>
-        <location filename="../mainwindow.cpp" line="562"/>
+        <location filename="../mainwindow.cpp" line="506"/>
+        <location filename="../mainwindow.cpp" line="591"/>
         <source>open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="563"/>
+        <location filename="../mainwindow.cpp" line="592"/>
         <source>off</source>
         <translation>断开</translation>
     </message>
@@ -374,7 +375,7 @@
     <message>
         <location filename="../settingsdialog.ui" line="36"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation>毫秒</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="58"/>
@@ -399,27 +400,27 @@
     <message>
         <location filename="../settingsdialog.ui" line="89"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="94"/>
         <source>Even</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="99"/>
         <source>Odd</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="104"/>
         <source>Space</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="109"/>
         <source>Mark</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="117"/>
@@ -428,33 +429,34 @@
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="128"/>
+        <location filename="../settingsdialog.cpp" line="96"/>
         <source>9600</source>
-        <translation type="unfinished"></translation>
+        <translation>9600</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="133"/>
         <source>19200</source>
-        <translation type="unfinished"></translation>
+        <translation>19200</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="138"/>
         <source>38400</source>
-        <translation type="unfinished"></translation>
+        <translation>38400</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="143"/>
         <source>57600</source>
-        <translation type="unfinished"></translation>
+        <translation>57600</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="148"/>
         <source>115200</source>
-        <translation type="unfinished"></translation>
+        <translation>115200</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="156"/>
         <source>Data Bits:</source>
-        <translation type="unfinished">数据位数</translation>
+        <translation>数据位数</translation>
     </message>
     <message>
         <source>5</source>
@@ -471,7 +473,7 @@
     <message>
         <location filename="../settingsdialog.ui" line="167"/>
         <source>8</source>
-        <translation type="unfinished">8</translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="175"/>
@@ -481,22 +483,60 @@
     <message>
         <location filename="../settingsdialog.ui" line="186"/>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="196"/>
         <source>3</source>
-        <translation type="unfinished">3</translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="191"/>
         <source>2</source>
-        <translation type="unfinished">2</translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="207"/>
         <source>Number of retries:</source>
         <translation>重试次数</translation>
+    </message>
+</context>
+<context>
+    <name>relay4</name>
+    <message>
+        <location filename="../relay4.cpp" line="68"/>
+        <source>1200</source>
+        <translation>1200</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="69"/>
+        <source>2400</source>
+        <translation>2400</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="70"/>
+        <source>4800</source>
+        <translation>4800</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="71"/>
+        <source>9600</source>
+        <translation>9600</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="72"/>
+        <source>14400</source>
+        <translation>14400</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="73"/>
+        <source>19200</source>
+        <translation>19200</translation>
+    </message>
+    <message>
+        <location filename="../relay4.cpp" line="74"/>
+        <source>38400</source>
+        <translation>38400</translation>
     </message>
 </context>
 </TS>
