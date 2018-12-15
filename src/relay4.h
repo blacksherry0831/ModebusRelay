@@ -3,7 +3,7 @@
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
 
-class relay4
+class relay4:public QObject
 {
 public:
 	relay4();
@@ -15,6 +15,8 @@ public:
 	 int  relay_addr;
 private:
 	 QModbusDataUnit::RegisterType mRegisterType;
+public:
+     static QStringList getSupportBaudRate();
 public:
 	QModbusDataUnit GetReadAllModbusData();
 	QModbusDataUnit GetWriteAllModbusData(int _data);

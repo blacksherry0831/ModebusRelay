@@ -47,19 +47,24 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#if 1
 #include <QMainWindow>
 #include <QModbusDataUnit>
 #include <QLabel>
 #include <QPushButton>
-#include <SwitchButton.hpp>
-
+#include <QComboBox>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDebug>
+#endif
+
+#if QT_VERSION
+#include <SwitchButton.hpp>
+#include "relay4.h"
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -76,7 +81,7 @@ QT_END_NAMESPACE
 class SettingsDialog;
 class WriteRegisterModel;
 
-#include "relay4.h"
+
 
 class MainWindow : public QMainWindow
 {
@@ -92,6 +97,8 @@ private:
     QModbusDataUnit writeRequest() const;
 	void initActionsRelay();
 	void initButtonRelay();
+    void initComboxBoxBaudRate_all();
+    void initComboxBoxBaudRate(QComboBox* _baud_rate) const;
 	void ModBusDebugMode(bool _visible);
 	void InitSerialPortMode(bool _init);
 	void InitSerialPortCombox(bool _init);

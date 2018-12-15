@@ -53,6 +53,11 @@
 
 #include <QDialog>
 #include <QSerialPort>
+#include <QComboBox>
+
+#if QT_VERSION
+#include "relay4.h"
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -84,6 +89,8 @@ public:
 private:
     Settings m_settings;
     Ui::SettingsDialog *ui;
+
+    void initComboxBoxBaudRate(QComboBox* _baud_rate) const;
 };
 
 #endif // SETTINGSDIALOG_H

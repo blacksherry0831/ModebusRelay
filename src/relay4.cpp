@@ -56,3 +56,21 @@ QModbusDataUnit relay4::GetWriteOneModbusData(int _addr,int _data)
      return modbusUnit;
 
  }
+ /**
+   * @brief relay4::getSupportBaudRate
+   * @return
+   */
+QStringList relay4::getSupportBaudRate()
+  {
+      QStringList baud_rate_t;
+
+      baud_rate_t.push_back(tr("1200"));
+      baud_rate_t.push_back(tr("2400"));
+      baud_rate_t.push_back(tr("4800"));
+      baud_rate_t.push_back(tr("9600"));
+      baud_rate_t.push_back(tr("14400"));
+      baud_rate_t.push_back(tr("19200"));
+      baud_rate_t.push_back(tr("38400"));
+
+      return baud_rate_t;
+  }

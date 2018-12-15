@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     , modbusDevice(nullptr)
 {
     ui->setupUi(this);
+    this->initComboxBoxBaudRate_all();
 
     m_settingsDialog = new SettingsDialog(this);
 
@@ -537,7 +538,30 @@ connect(button,&SwitchButton::valueChanged, this, [this, button,bi](bool _status
 
 
 }
+/**
+ * @brief MainWindow::initComboxBoxBaudRate_all
+ */
+void MainWindow::initComboxBoxBaudRate_all()
+{
+    initComboxBoxBaudRate(ui->comboBox_baudRateOpen);
+    initComboxBoxBaudRate(ui->comboBox_baudRateModified);
+}
+/**
+ * @brief MainWindow::initComboxBoxBaudRate 初始化波特率
+ * @param _baud_rate
+ */
+  void MainWindow::initComboxBoxBaudRate(QComboBox* _baud_rate) const
+  {
+      QStringList baud_rate_t=relay4::getSupportBaudRate();
+      _baud_rate->clear();
+      _baud_rate->addItems(baud_rate_t);
+      _baud_rate->setCurrentIndex(_baud_rate->findText(tr("9600")));
 
+  }
+/**
+ * @brief MainWindow::processRelayControls
+ * @param _modbusData
+ */
 void MainWindow::processRelayControls(QModbusDataUnit _modbusData)
 {
 	const QString on_color = "color:green;";
@@ -573,7 +597,10 @@ void MainWindow::processRelayControls(QModbusDataUnit _modbusData)
 	}
 	
 }
-
+/**
+ * @brief MainWindow::readRequest
+ * @return
+ */
 QModbusDataUnit MainWindow::readRequest() const
 {
     const auto table =

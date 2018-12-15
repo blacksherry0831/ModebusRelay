@@ -56,7 +56,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-
+    this->initComboxBoxBaudRate(ui->baudCombo);
    
     ui->baudCombo->setCurrentText(QString::number(m_settings.baud));
     ui->dataBitsCombo->setCurrentText(QString::number(m_settings.dataBits));
@@ -86,4 +86,13 @@ SettingsDialog::~SettingsDialog()
 SettingsDialog::Settings SettingsDialog::settings() const
 {
     return m_settings;
+}
+
+void SettingsDialog::initComboxBoxBaudRate(QComboBox* _baud_rate) const
+{
+    QStringList baud_rate_t=relay4::getSupportBaudRate();
+    _baud_rate->clear();
+    _baud_rate->addItems(baud_rate_t);
+    _baud_rate->setCurrentIndex(_baud_rate->findText(tr("9600")));
+
 }
