@@ -26,6 +26,8 @@
 + 00 00 继电器起始地址
 + 00 04 读取长度
 + 00 00 CRC
-   
+---
+   6、 0x06 修改波特率
+   01 06 02 00 06 00 00 00
 ---
 # [Modbus学习网站](https://www.hifreud.com/2016/06/02/modbus-02-simulation-environment-setup/)  
