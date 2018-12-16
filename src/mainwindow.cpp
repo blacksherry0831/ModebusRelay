@@ -155,7 +155,7 @@ void MainWindow::initActions()
             this, &MainWindow::on_connectButton_clicked);
 
     connect(ui->actionExit, &QAction::triggered, this, &QMainWindow::close);
-    connect(ui->actionOptions, &QAction::triggered, m_settingsDialog, &QDialog::show);
+    connect(ui->actionOptions, &QAction::triggered, this, &MainWindow::showSettingsDialog);
 }
 
 void MainWindow::on_connectType_currentIndexChanged(int index)
@@ -190,6 +190,16 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
                 this, &MainWindow::onStateChanged);
     }
 }
+
+ void  MainWindow::modbusDeviceDisCconnected()
+ {
+    if (modbusDevice->state()==QModbusDevice::ConnectedState){
+        modbusDevice->disconnectDevice();
+        ui->actionConnect->setEnabled(true);
+        ui->actionDisconnect->setEnabled(false);
+    }
+
+ }
 
 void MainWindow::on_connectButton_clicked()
 {
@@ -226,9 +236,7 @@ void MainWindow::on_connectButton_clicked()
 
         }
     } else {
-        modbusDevice->disconnectDevice();
-        ui->actionConnect->setEnabled(true);
-        ui->actionDisconnect->setEnabled(false);
+        this->modbusDeviceDisCconnected();
     }
 }
 
@@ -713,4 +721,10 @@ void MainWindow::on_pushButton_modifiedBaudRate_clicked()
  void  MainWindow::statusBar_showMessage(QString _msg,int _timeout)
  {
      statusBar()->showMessage(_msg);
+ }
+
+ void MainWindow::showSettingsDialog()
+ {
+       this->m_settingsDialog->show();
+      on_connectButton_clicked();
  }

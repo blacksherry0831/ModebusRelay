@@ -104,7 +104,8 @@ private:
 	void InitSerialPortCombox(bool _init);
 	QString GetSerialPortName();
     int GetSerialPortBaudrate();
-private slots:
+public slots:
+    void modbusDeviceDisCconnected();
     void on_connectButton_clicked();
     void onStateChanged(int state);
 
@@ -117,16 +118,18 @@ private slots:
     void on_connectType_currentIndexChanged(int);
     void on_writeTable_currentIndexChanged(int);
 
-	void on_relay_read_all();
-	void on_relay_open_all();
-	void on_relay_close_all();
+
 
 	void request_read_modbus_cient(QModbusDataUnit _ModbusData,int _server_addr);
 	void request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr);
 
 	void process_resopnse_modbus(QModbusReply* reply);
     void on_pushButton_modifiedBaudRate_clicked();
-
+    void showSettingsDialog();
+public slots:
+    void on_relay_read_all();
+    void on_relay_open_all();
+    void on_relay_close_all();
 private:
 	QLabel* mRelaylabel[4];
 	QLabel* mRelayLabelStatus[4];
