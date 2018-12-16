@@ -176,15 +176,15 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
     }
 
     connect(modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-        statusBar()->showMessage(modbusDevice->errorString(), 5000);
+        statusBar_showMessage(modbusDevice->errorString(), 5000);
     });
 
     if (!modbusDevice) {
         ui->connectButton->setDisabled(true);
         if (type == Serial)
-            statusBar()->showMessage(tr("Could not create Modbus master."), 5000);
+            statusBar_showMessage(tr("Could not create Modbus master."), 5000);
         else
-            statusBar()->showMessage(tr("Could not create Modbus client."), 5000);
+            statusBar_showMessage(tr("Could not create Modbus client."), 5000);
     } else {
         connect(modbusDevice, &QModbusClient::stateChanged,
                 this, &MainWindow::onStateChanged);
@@ -217,7 +217,7 @@ void MainWindow::on_connectButton_clicked()
         modbusDevice->setTimeout(m_settingsDialog->settings().responseTime);
         modbusDevice->setNumberOfRetries(m_settingsDialog->settings().numberOfRetries);
         if (!modbusDevice->connectDevice()) {
-            statusBar()->showMessage(tr("Connect failed: ") + modbusDevice->errorString(), 5000);
+            statusBar_showMessage(tr("Connect failed: ") + modbusDevice->errorString(), 5000);
         } else {
             ui->actionConnect->setEnabled(false);
             ui->actionDisconnect->setEnabled(true);
@@ -257,7 +257,7 @@ void MainWindow::on_readButton_clicked()
         else
             delete reply; // broadcast replies return immediately
     } else {
-        statusBar()->showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
+        statusBar_showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
     }
 }
 
@@ -272,11 +272,11 @@ void MainWindow::readReady()
 		this->process_resopnse_modbus(reply); 
 
     } else if (reply->error() == QModbusDevice::ProtocolError) {
-        statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
+        statusBar_showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
                                     arg(reply->errorString()).
                                     arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
     } else {
-        statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
+        statusBar_showMessage(tr("Read response error: %1 (code: 0x%2)").
                                     arg(reply->errorString()).
                                     arg(reply->error(), -1, 16), 5000);
     }
@@ -303,11 +303,11 @@ void MainWindow::on_writeButton_clicked()
         if (!reply->isFinished()) {
             connect(reply, &QModbusReply::finished, this, [this, reply]() {
                 if (reply->error() == QModbusDevice::ProtocolError) {
-                    statusBar()->showMessage(tr("Write response error: %1 (Mobus exception: 0x%2)")
+                    statusBar_showMessage(tr("Write response error: %1 (Mobus exception: 0x%2)")
                         .arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16),
                         5000);
                 } else if (reply->error() != QModbusDevice::NoError) {
-                    statusBar()->showMessage(tr("Write response error: %1 (code: 0x%2)").
+                    statusBar_showMessage(tr("Write response error: %1 (code: 0x%2)").
                         arg(reply->errorString()).arg(reply->error(), -1, 16), 5000);
                 }
                 reply->deleteLater();
@@ -317,7 +317,7 @@ void MainWindow::on_writeButton_clicked()
             reply->deleteLater();
         }
     } else {
-        statusBar()->showMessage(tr("Write error: ") + modbusDevice->errorString(), 5000);
+        statusBar_showMessage(tr("Write error: ") + modbusDevice->errorString(), 5000);
     }
 }
 
@@ -344,7 +344,7 @@ void MainWindow::on_readWriteButton_clicked()
         else
             delete reply; // broadcast replies return immediately
     } else {
-        statusBar()->showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
+        statusBar_showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
     }
 }
 
@@ -404,7 +404,7 @@ void MainWindow::request_read_modbus_cient(QModbusDataUnit _ModbusData, int _ser
 			delete reply; // broadcast replies return immediately
 	}
 	else {
-		statusBar()->showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
+        statusBar_showMessage(tr("Read error: ") + modbusDevice->errorString(), 5000);
 	}
 
 }
@@ -421,12 +421,12 @@ void MainWindow::request_write_modbus_cient(QModbusDataUnit _ModbusData, int _se
 		if (!reply->isFinished()) {
 			connect(reply, &QModbusReply::finished, this, [this, reply]() {
 				if (reply->error() == QModbusDevice::ProtocolError) {
-					statusBar()->showMessage(tr("Write response error: %1 (Mobus exception: 0x%2)")
+                    statusBar_showMessage(tr("Write response error: %1 (Mobus exception: 0x%2)")
 						.arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16),
 						5000);
 				}
 				else if (reply->error() != QModbusDevice::NoError) {
-					statusBar()->showMessage(tr("Write response error: %1 (code: 0x%2)").
+                    statusBar_showMessage(tr("Write response error: %1 (code: 0x%2)").
 						arg(reply->errorString()).arg(reply->error(), -1, 16), 5000);
 				}
 
@@ -443,7 +443,7 @@ void MainWindow::request_write_modbus_cient(QModbusDataUnit _ModbusData, int _se
 		}
 	}
 	else {
-		statusBar()->showMessage(tr("Write error: ") + modbusDevice->errorString(), 5000);
+        statusBar_showMessage(tr("Write error: ") + modbusDevice->errorString(), 5000);
 	}
 
 }
@@ -498,7 +498,7 @@ void MainWindow::initRelayControlsEvent()
 
 #if 1
 
-	for (size_t bi = 0; bi < relay4_t.relay_num; bi++){
+    for (int bi = 0; bi < relay4_t.relay_num; bi++){
 
 		auto* button = mRelayButton[bi];
 #if 1
@@ -709,3 +709,8 @@ void MainWindow::on_pushButton_modifiedBaudRate_clicked()
 
     request_write_modbus_cient(modified_baudrate, relay4_t.relay_addr);
 }
+
+ void  MainWindow::statusBar_showMessage(QString _msg,int _timeout)
+ {
+     statusBar()->showMessage(_msg);
+ }

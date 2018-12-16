@@ -135,6 +135,7 @@ private:
 	void initRelayControlsEvent();
 	void processRelayControls(QModbusDataUnit _data);
     void showstatusbar_modbus_data(const QModbusDataUnit _unit);
+    void statusBar_showMessage(QString _msg,int _timeout);
 private:
     Ui::MainWindow *ui;
     QModbusReply *lastRequest;
