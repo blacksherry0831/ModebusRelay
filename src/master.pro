@@ -15,12 +15,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         settingsdialog.cpp \
         writeregistermodel.cpp \
-    relay4.cpp
+		relay4.cpp \
+		JQChecksum.cpp \
+    modbuscvt.cpp
 
 HEADERS  += mainwindow.h \
          settingsdialog.h \
         writeregistermodel.h \
-    relay4.h
+		relay4.h \
+		JQChecksum.h \
+    modbuscvt.h
 
 FORMS    += mainwindow.ui \
          settingsdialog.ui

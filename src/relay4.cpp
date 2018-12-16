@@ -3,7 +3,25 @@
 const int relay4::relay_base_address=RELAY_4_BASE_ADDR;
 const int relay4::relay_num=4;
 
-
+/**
+*@brief relay4::relay4
+*
+* 【read  all】01 01 00 00 00 04 3D C9
+* 【open  all】01 0F 00 00 00 04 01 0F 7E 92
+* 【close all】01 0F 00 00 00 04 01 00 3E 96
+*
+*
+* 【open  0】01 05 00 00 FF 00 8C 3A
+*
+* 【close 0】01 05 00 00 00 00 CD CA
+* 【close 1】01 05 00 01 00 00 9C 0A
+* 【close 2】01 05 00 02 00 00 6C 0A
+* 【close 3】01 05 00 03 00 00 3D CA
+*
+* 【baud rate】01 06 02 00 00 03 C8 73
+*
+*
+*/
 relay4::relay4()
 {
 	mRegisterType = QModbusDataUnit::RegisterType::Coils;

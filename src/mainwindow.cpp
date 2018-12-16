@@ -155,7 +155,7 @@ void MainWindow::initActions()
             this, &MainWindow::on_connectButton_clicked);
 
     connect(ui->actionExit, &QAction::triggered, this, &QMainWindow::close);
-    connect(ui->actionOptions, &QAction::triggered, m_settingsDialog, &QDialog::show);
+    connect(ui->actionOptions, &QAction::triggered, this, &MainWindow::showSettingsDialog);
 }
 
 void MainWindow::on_connectType_currentIndexChanged(int index)
@@ -168,19 +168,28 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
 
     auto type = static_cast<ModbusConnection> (index);
     if (type == Serial) {
+
+#if     USE_MODBUS_CLIENT_OR_SERIALPORT
         modbusDevice = new QModbusRtuSerialMaster(this);
+#else
+        modbusSerialport=new QSerialPort(this);
+#endif
+
     } else if (type == Tcp) {
         modbusDevice = new QModbusTcpClient(this);
         if (ui->portEdit->text().isEmpty())
             ui->portEdit->setText(QLatin1Literal("127.0.0.1:502"));
     }
 
-    connect(modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-        statusBar_showMessage(modbusDevice->errorString(), 5000);
-    });
 
+
+    connect(modbusDevice, &QModbusClient::errorOccurred,this,&MainWindow::onQModbusClient_errorOccurred);
+
+#if     USE_MODBUS_CLIENT_OR_SERIALPORT
     if (!modbusDevice) {
+
         ui->connectButton->setDisabled(true);
+
         if (type == Serial)
             statusBar_showMessage(tr("Could not create Modbus master."), 5000);
         else
@@ -189,47 +198,130 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
         connect(modbusDevice, &QModbusClient::stateChanged,
                 this, &MainWindow::onStateChanged);
     }
+#else
+    if (!modbusSerialport) {
+
+        ui->connectButton->setDisabled(true);
+
+        if (type == Serial)
+            statusBar_showMessage(tr("Could not create Modbus master."), 5000);
+        else
+            statusBar_showMessage(tr("Could not create Modbus client."), 5000);
+    } else {
+        connect(modbusSerialport, SIGNAL(readyRead()), this, SLOT(on_modbusSerialport_ready_read()));
+    }
+#endif
+
 }
 
-void MainWindow::on_connectButton_clicked()
-{
-    if (!modbusDevice)
+ void  MainWindow::modbusDeviceDisCconnected()
+ {
+#if USE_MODBUS_CLIENT_OR_SERIALPORT
+     if (modbusDevice->state()==QModbusDevice::ConnectedState){
+         modbusDevice->disconnectDevice();
+         ui->actionConnect->setEnabled(true);
+         ui->actionDisconnect->setEnabled(false);
+     }
+#else
+     if (modbusSerialport->isOpen()){
+         modbusSerialport->close();
+         ui->actionConnect->setEnabled(true);
+         ui->actionDisconnect->setEnabled(false);
+         ui->connectButton->setText(tr("Connect"));
+     }
+#endif
+ }
+ /**
+    * @brief SetTcpModbusParam
+    */
+   void MainWindow::SetTcpModbusParam()
+   {
+       const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
+       modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, url.port());
+       modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, url.host());
+   }
+   /**
+  * @brief MainWindow::serial_port_connect_disconnedt
+  */
+ void MainWindow::serial_port_connect_disconnedt()
+ {
+    if(!modbusSerialport)
         return;
 
-    statusBar()->clearMessage();
-    if (modbusDevice->state() != QModbusDevice::ConnectedState) {
+     statusBar()->clearMessage();
+    if (!modbusSerialport->isOpen()) {
         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-                GetSerialPortName());
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
-                m_settingsDialog->settings().parity);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-               this->GetSerialPortBaudrate());
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
-                m_settingsDialog->settings().dataBits);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
-                m_settingsDialog->settings().stopBits);
+
+            modbusSerialport->setPortName(GetSerialPortName());
+            modbusSerialport->setParity(QSerialPort::Parity(m_settingsDialog->settings().parity));
+            modbusSerialport->setBaudRate(this->GetSerialPortBaudrate());
+            modbusSerialport->setDataBits(QSerialPort::DataBits(m_settingsDialog->settings().dataBits));
+            modbusSerialport->setStopBits(QSerialPort::StopBits(m_settingsDialog->settings().stopBits));
+
         } else {
-            const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
-            modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, url.port());
-            modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, url.host());
+           this->SetTcpModbusParam();
         }
-        modbusDevice->setTimeout(m_settingsDialog->settings().responseTime);
-        modbusDevice->setNumberOfRetries(m_settingsDialog->settings().numberOfRetries);
-        if (!modbusDevice->connectDevice()) {
-            statusBar_showMessage(tr("Connect failed: ") + modbusDevice->errorString(), 5000);
+
+        if (!modbusSerialport->open(QIODevice::ReadWrite)) {
+            ui->connectButton->setText(tr("Connect"));
+            statusBar_showMessage(tr("Connect failed: ") + modbusSerialport->errorString(), 5000);
         } else {
+            ui->connectButton->setText(tr("Disconnect"));
             ui->actionConnect->setEnabled(false);
             ui->actionDisconnect->setEnabled(true);
 
-			this->on_relay_read_all();
+            this->on_relay_read_all();
 
         }
     } else {
-        modbusDevice->disconnectDevice();
-        ui->actionConnect->setEnabled(true);
-        ui->actionDisconnect->setEnabled(false);
+        this->modbusDeviceDisCconnected();
     }
+ }
+
+ void MainWindow::modbus_rtu_connect_disconnedt()
+ {
+     if (!modbusDevice)
+         return;
+
+     statusBar()->clearMessage();
+     if (modbusDevice->state() != QModbusDevice::ConnectedState) {
+         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
+             modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
+                 GetSerialPortName());
+             modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
+                 m_settingsDialog->settings().parity);
+             modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
+                this->GetSerialPortBaudrate());
+             modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
+                 m_settingsDialog->settings().dataBits);
+             modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
+                 m_settingsDialog->settings().stopBits);
+         } else {
+             this->SetTcpModbusParam();
+         }
+         modbusDevice->setTimeout(m_settingsDialog->settings().responseTime);
+         modbusDevice->setNumberOfRetries(m_settingsDialog->settings().numberOfRetries);
+         if (!modbusDevice->connectDevice()) {
+             statusBar_showMessage(tr("Connect failed: ") + modbusDevice->errorString(), 5000);
+         } else {
+             ui->actionConnect->setEnabled(false);
+             ui->actionDisconnect->setEnabled(true);
+
+             this->on_relay_read_all();
+
+         }
+     } else {
+         this->modbusDeviceDisCconnected();
+     }
+ }
+
+void MainWindow::on_connectButton_clicked()
+{
+#if USE_MODBUS_CLIENT_OR_SERIALPORT
+    modbus_rtu_connect_disconnedt();
+#else
+    serial_port_connect_disconnedt();
+#endif
 }
 
 void MainWindow::onStateChanged(int state)
@@ -238,10 +330,21 @@ void MainWindow::onStateChanged(int state)
     ui->actionConnect->setEnabled(!connected);
     ui->actionDisconnect->setEnabled(connected);
 
+    QModbusDevice::State  qmds= (QModbusDevice::State)state;
+
     if (state == QModbusDevice::UnconnectedState)
         ui->connectButton->setText(tr("Connect"));
     else if (state == QModbusDevice::ConnectedState)
         ui->connectButton->setText(tr("Disconnect"));
+}
+
+void MainWindow::onQModbusClient_errorOccurred(int _state)
+{
+    QModbusDevice::Error error=(QModbusDevice::Error)_state;
+
+    statusBar_showMessage(modbusDevice->errorString(),0);
+
+
 }
 
 void MainWindow::on_readButton_clicked()
@@ -390,13 +493,78 @@ void MainWindow::on_relay_close_all()
 	request_write_modbus_cient(relay_all, relay4_t.relay_addr);
 }
 
-void MainWindow::request_read_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr)
+void MainWindow::request_read_modbus_cient(QModbusDataUnit _ModbusData,int _server_addr)
 {
+#if USE_MODBUS_CLIENT_OR_SERIALPORT
+    request_read_modbus_cient_ModbusClient(_ModbusData,_server_addr);
+#else
+   request_read_modbus_cient_serialport(_ModbusData,_server_addr);
+#endif
+}
+void MainWindow::request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr)
+{
+#if USE_MODBUS_CLIENT_OR_SERIALPORT
+   request_write_modbus_cient_ModbusClient(_ModbusData,_server_addr);
+#else
+   request_write_modbus_cient_serialport(_ModbusData,_server_addr);
+#endif
+}
+/**
+ * @brief MainWindow::request_read_modbus_cient_serialport
+ * @param _ModbusData
+ * @param _server_addr
+ */
+void MainWindow::request_read_modbus_cient_serialport(QModbusDataUnit _ModbusData,int _server_addr)
+{
+    QByteArray qba_t=  ModbusCvt::getModbusDataUnitArray(_ModbusData,_server_addr,0);
+        serialportWrite(qba_t, _ModbusData);
+}
+/**
+ * @brief MainWindow::request_write_modbus_cient_serialport
+ * @param _ModbusData
+ * @param _server_addr
+ */
+void MainWindow::request_write_modbus_cient_serialport(QModbusDataUnit _ModbusData, int _server_addr)
+{
+    QByteArray qba_t=  ModbusCvt::getModbusDataUnitArray(_ModbusData,_server_addr,1);
+        serialportWrite(qba_t, _ModbusData);
+}
+/**
+  * @brief MainWindow::serialportWrite
+  * @param _qba
+  */
+ void  MainWindow::serialportWrite(QByteArray _qba,QModbusDataUnit _ModbusData)
+ {
+     this->modbusSerialportByte.clear();
+
+     this->modbusSerialportData=_ModbusData;
+
+     this->statusBar_showMessage(ModbusCvt::ByteArrayToHexString(_qba),0);
+
+     this->modbusSerialport->write(_qba);
+ }
+/**
+ * @brief MainWindow::request_read_modbus_cient_ModbusClient
+ * @param _ModbusData
+ * @param _server_addr
+ */
+void MainWindow::request_read_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData, int _server_addr)
+{
+
 	if (!modbusDevice)
 		return;
 	ui->readValue->clear();
 	statusBar()->clearMessage();
-	
+
+    if(isModbusConnected()==false){
+
+        if(modbusDevice->connectDevice()){
+              QMessageBox::about(NULL, tr("About"), tr("modbus can't connected !"));
+              return;
+         }
+
+    }
+
 	if (auto *reply = modbusDevice->sendReadRequest(_ModbusData,_server_addr)) {
 		if (!reply->isFinished())
 			connect(reply, &QModbusReply::finished, this, &MainWindow::readReady);
@@ -408,15 +576,28 @@ void MainWindow::request_read_modbus_cient(QModbusDataUnit _ModbusData, int _ser
 	}
 
 }
-
-void MainWindow::request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr)
+/**
+ * @brief MainWindow::request_write_modbus_cient_ModbusClient
+ * @param _ModbusData
+ * @param _server_addr
+ */
+void MainWindow::request_write_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData, int _server_addr)
 {
 	if (!modbusDevice)
 		return;
 	statusBar()->clearMessage();
 
 	QModbusDataUnit writeUnit = _ModbusData;
-		
+
+    if(isModbusConnected()==false){
+
+        if(modbusDevice->connectDevice()){
+              QMessageBox::about(NULL, tr("About"), tr("modbus can't connected !"));
+              return;
+         }
+
+    }
+
 	if (auto *reply = modbusDevice->sendWriteRequest(writeUnit, _server_addr)) {
 		if (!reply->isFinished()) {
 			connect(reply, &QModbusReply::finished, this, [this, reply]() {
@@ -447,7 +628,10 @@ void MainWindow::request_write_modbus_cient(QModbusDataUnit _ModbusData, int _se
 	}
 
 }
-
+/**
+ * @brief MainWindow::process_resopnse_modbus
+ * @param reply
+ */
 void MainWindow::process_resopnse_modbus(QModbusReply* reply)
 {
 	
@@ -460,17 +644,22 @@ void MainWindow::process_resopnse_modbus(QModbusReply* reply)
 					unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
 			ui->readValue->addItem(entry);
 		}
-		processRelayControls(unit);
+        processRelayControls(unit);
 
 	}
 
 }
-
+/**
+ * @brief MainWindow::showstatusbar_modbus_data
+ * @param _unit
+ */
 void MainWindow::showstatusbar_modbus_data(const QModbusDataUnit _unit)
 {
     quint16 *data= _unit.values().data();
 }
-
+/**
+ * @brief MainWindow::initRelayControls
+ */
 void MainWindow::initRelayControls()
 {
 
@@ -490,7 +679,9 @@ void MainWindow::initRelayControls()
 	mRelayLabelStatus[3] = ui->label_3_relay_status;
 
 }
-
+/**
+ * @brief MainWindow::initRelayControlsEvent
+ */
 void MainWindow::initRelayControlsEvent()
 {
 	relay4 relay4_t;
@@ -574,7 +765,6 @@ void MainWindow::processRelayControls(QModbusDataUnit _modbusData)
 	const QString on_color = "color:green;";
 	const QString off_color = "color:red;";
 
-
 	for (uint i = 0; i <_modbusData.valueCount(); i++) {
 				QString status_color;
 				int relayaddr = i + _modbusData.startAddress();
@@ -644,7 +834,9 @@ void MainWindow::initButtonRelay()
 	connect(ui->pushButton_read_all_relay,SIGNAL(clicked()),this,SLOT(on_relay_read_all()));
 	connect(ui->pushButton_open_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_open_all()));
 	connect(ui->pushButton_close_all_relay, SIGNAL(clicked()), this, SLOT(on_relay_close_all()));
+#if 0
     connect(ui->pushButton_modifiedBaudRate, SIGNAL(clicked()), this, SLOT(on_pushButton_modifiedBaudRate_clicked()));
+#endif
 }
 
 void MainWindow::ModBusDebugMode(bool _visible)
@@ -712,5 +904,93 @@ void MainWindow::on_pushButton_modifiedBaudRate_clicked()
 
  void  MainWindow::statusBar_showMessage(QString _msg,int _timeout)
  {
+
      statusBar()->showMessage(_msg);
+
  }
+
+ void MainWindow::showSettingsDialog()
+ {
+       this->m_settingsDialog->show();
+      on_connectButton_clicked();
+ }
+
+  int  MainWindow::isModbusConnected()
+{
+     QModbusDevice::Error error=(QModbusDevice::Error) modbusDevice->error();
+     QModbusDevice::State  state= (QModbusDevice::State) modbusDevice->state();
+
+    if(  (error==QModbusClient::Error::NoError) &&
+         (state==QModbusClient::State::ConnectingState ||state==QModbusClient::State::ConnectedState )){
+            return 1;
+    }else{
+            return 0;
+    }
+
+}
+  /**
+ * @brief MainWindow::on_modbusSerialport_ready_read
+ */
+void MainWindow::on_modbusSerialport_ready_read()
+{
+       const int address=ui->serverEdit->value();
+
+       QByteArray ba;
+       ba = modbusSerialport->readAll();
+       this->modbusSerialportByte.append(ba);
+
+       if(this->modbusSerialportByte.size()<=5){
+           return;
+       }
+
+       const int respAddress_t=this->modbusSerialportByte.at(0);
+       const int respFuncCode=this->modbusSerialportByte.at(1);
+
+       if(this->modbusSerialportByte.size()>2){
+
+       }
+
+       if(respAddress_t==address){
+                if(respFuncCode==0x01){
+                       //读线圈
+                        const int respBytes=this->modbusSerialportByte.at(2);
+                        const int value_t=this->modbusSerialportByte.at(3);
+                        QVector<quint16> qv_t;
+                              qv_t.append(value_t&0x01);
+                              qv_t.append(value_t&0x02);
+                              qv_t.append(value_t&0x04);
+                              qv_t.append(value_t&0x08);
+
+
+
+                        modbusSerialportData.setRegisterType(QModbusDataUnit::RegisterType::Coils);
+                        modbusSerialportData.setValueCount(4);
+                        modbusSerialportData.setStartAddress(0);
+                        modbusSerialportData.setValues(qv_t);
+
+
+                }else if(respFuncCode==0x05){
+                        const int register_addr_H=this->modbusSerialportByte.at(2);
+                        const int register_addr_L=this->modbusSerialportByte.at(3);
+                        int start_addr_t=(register_addr_H<<8)+register_addr_L;
+                        const char coil_v_t=this->modbusSerialportByte.at(4);
+                        modbusSerialportData.setRegisterType(QModbusDataUnit::RegisterType::Coils);
+                        modbusSerialportData.setStartAddress(start_addr_t);
+                        modbusSerialportData.setValueCount(1);
+                        modbusSerialportData.setValue(0,coil_v_t==-1);
+                }else if(respFuncCode==0xF0){
+
+
+                }else{
+
+                }
+
+       }
+
+       this->processRelayControls(modbusSerialportData);
+       this->statusBar_showMessage(ModbusCvt::ByteArrayToHexString( this->modbusSerialportByte),0);
+
+}
+/**
+* @brief MainWindow::on_modbusSerialport_ready_read
+*/

@@ -50,6 +50,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define USE_MODBUS_CLIENT_OR_SERIALPORT (0)
+
 #if 1
 #include <QMainWindow>
 #include <QModbusDataUnit>
@@ -59,11 +61,16 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDebug>
+
+#include <QMessageBox>
 #endif
 
 #if QT_VERSION
+
 #include <SwitchButton.hpp>
 #include "relay4.h"
+#include "modbuscvt.h"
+
 #endif
 
 QT_BEGIN_NAMESPACE
@@ -104,7 +111,11 @@ private:
 	void InitSerialPortCombox(bool _init);
 	QString GetSerialPortName();
     int GetSerialPortBaudrate();
-private slots:
+    void SetTcpModbusParam();
+    void serial_port_connect_disconnedt();
+    void modbus_rtu_connect_disconnedt();
+public slots:
+    void modbusDeviceDisCconnected();
     void on_connectButton_clicked();
     void onStateChanged(int state);
 
@@ -117,17 +128,28 @@ private slots:
     void on_connectType_currentIndexChanged(int);
     void on_writeTable_currentIndexChanged(int);
 
-	void on_relay_read_all();
-	void on_relay_open_all();
-	void on_relay_close_all();
+    void serialportWrite(QByteArray _qba,QModbusDataUnit _ModbusData);
+    void request_read_modbus_cient_serialport(QModbusDataUnit _ModbusData,int _server_addr);
+    void request_write_modbus_cient_serialport(QModbusDataUnit _ModbusData, int _server_addr);
+
+    void request_read_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData,int _server_addr);
+    void request_write_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData, int _server_addr);
 
 	void request_read_modbus_cient(QModbusDataUnit _ModbusData,int _server_addr);
 	void request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr);
 
 	void process_resopnse_modbus(QModbusReply* reply);
     void on_pushButton_modifiedBaudRate_clicked();
+    void showSettingsDialog();
+public slots:
+    void on_relay_read_all();
+    void on_relay_open_all();
+    void on_relay_close_all();
+    void onQModbusClient_errorOccurred(int _state);
 
-private:
+    void on_modbusSerialport_ready_read();
+
+private :
 	QLabel* mRelaylabel[4];
 	QLabel* mRelayLabelStatus[4];
 	QPushButton* mRelayButton[4];
@@ -136,10 +158,17 @@ private:
 	void processRelayControls(QModbusDataUnit _data);
     void showstatusbar_modbus_data(const QModbusDataUnit _unit);
     void statusBar_showMessage(QString _msg,int _timeout);
+    int  isModbusConnected();
+
 private:
     Ui::MainWindow *ui;
     QModbusReply *lastRequest;
     QModbusClient *modbusDevice;
+#if !USE_MODBUS_RTU_OR_SERIALPORT
+        QSerialPort     *modbusSerialport;
+        QByteArray       modbusSerialportByte;
+        QModbusDataUnit  modbusSerialportData;
+#endif
     SettingsDialog *m_settingsDialog;
     WriteRegisterModel *writeModel;
 };
