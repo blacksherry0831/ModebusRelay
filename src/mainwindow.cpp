@@ -246,13 +246,35 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
   */
  void MainWindow::serial_port_connect_disconnedt()
  {
-    if(!modbusSerialport)
+     if (!this->modbusSerialport)
+         return;
 
-    if (modbusDevice->state()==QModbusDevice::ConnectedState){
-        modbusDevice->disconnectDevice();
-        ui->actionConnect->setEnabled(true);
-        ui->actionDisconnect->setEnabled(false);
-    }
+     statusBar()->clearMessage();
+     if (!this->modbusSerialport->isOpen()) {
+         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
+
+                this->modbusSerialport->setPortName(GetSerialPortName());
+                this->modbusSerialport->setParity(QSerialPort::Parity(m_settingsDialog->settings().parity));
+                this->modbusSerialport->setBaudRate( this->GetSerialPortBaudrate());
+                this->modbusSerialport->setDataBits(QSerialPort::DataBits(m_settingsDialog->settings().dataBits));
+                this->modbusSerialport->setStopBits(QSerialPort::StopBits(m_settingsDialog->settings().stopBits));
+
+         } else {
+             this->SetTcpModbusParam();
+         }
+
+         if (!this->modbusSerialport->open(QIODevice::ReadWrite)) {
+                statusBar_showMessage(tr("Connect failed: ") + this->modbusSerialport->errorString(), 5000);
+                this->ui->connectButton->setText(tr("connect"));
+         } else {
+                ui->actionConnect->setEnabled(false);
+                ui->actionDisconnect->setEnabled(true);
+                this->on_relay_read_all();
+                this->ui->connectButton->setText(tr("disconnect"));
+         }
+     } else {
+         this->modbusDeviceDisCconnected();
+     }
 
  }
 
@@ -914,7 +936,7 @@ void MainWindow::on_modbusSerialport_ready_read()
        ba = modbusSerialport->readAll();
        this->modbusSerialportByte.append(ba);
 
-       if(this->modbusSerialportByte.size()<=5){
+       if(this->modbusSerialportByte.size()<5){
            return;
        }
 
