@@ -216,6 +216,7 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
 
  void  MainWindow::modbusDeviceDisCconnected()
  {
+
 #if USE_MODBUS_CLIENT_OR_SERIALPORT
      if (modbusDevice->state()==QModbusDevice::ConnectedState){
          modbusDevice->disconnectDevice();
@@ -246,36 +247,13 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
  void MainWindow::serial_port_connect_disconnedt()
  {
     if(!modbusSerialport)
-        return;
 
-     statusBar()->clearMessage();
-    if (!modbusSerialport->isOpen()) {
-        if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
-
-            modbusSerialport->setPortName(GetSerialPortName());
-            modbusSerialport->setParity(QSerialPort::Parity(m_settingsDialog->settings().parity));
-            modbusSerialport->setBaudRate(this->GetSerialPortBaudrate());
-            modbusSerialport->setDataBits(QSerialPort::DataBits(m_settingsDialog->settings().dataBits));
-            modbusSerialport->setStopBits(QSerialPort::StopBits(m_settingsDialog->settings().stopBits));
-
-        } else {
-           this->SetTcpModbusParam();
-        }
-
-        if (!modbusSerialport->open(QIODevice::ReadWrite)) {
-            ui->connectButton->setText(tr("Connect"));
-            statusBar_showMessage(tr("Connect failed: ") + modbusSerialport->errorString(), 5000);
-        } else {
-            ui->connectButton->setText(tr("Disconnect"));
-            ui->actionConnect->setEnabled(false);
-            ui->actionDisconnect->setEnabled(true);
-
-            this->on_relay_read_all();
-
-        }
-    } else {
-        this->modbusDeviceDisCconnected();
+    if (modbusDevice->state()==QModbusDevice::ConnectedState){
+        modbusDevice->disconnectDevice();
+        ui->actionConnect->setEnabled(true);
+        ui->actionDisconnect->setEnabled(false);
     }
+
  }
 
  void MainWindow::modbus_rtu_connect_disconnedt()
@@ -909,11 +887,8 @@ void MainWindow::on_pushButton_modifiedBaudRate_clicked()
 
  }
 
- void MainWindow::showSettingsDialog()
- {
-       this->m_settingsDialog->show();
-      on_connectButton_clicked();
- }
+
+
 
   int  MainWindow::isModbusConnected()
 {
@@ -994,3 +969,10 @@ void MainWindow::on_modbusSerialport_ready_read()
 /**
 * @brief MainWindow::on_modbusSerialport_ready_read
 */
+
+ void MainWindow::showSettingsDialog()
+ {
+       this->m_settingsDialog->show();
+      on_connectButton_clicked();
+ }
+

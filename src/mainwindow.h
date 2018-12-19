@@ -111,9 +111,11 @@ private:
 	void InitSerialPortCombox(bool _init);
 	QString GetSerialPortName();
     int GetSerialPortBaudrate();
+
     void SetTcpModbusParam();
     void serial_port_connect_disconnedt();
     void modbus_rtu_connect_disconnedt();
+
 public slots:
     void modbusDeviceDisCconnected();
     void on_connectButton_clicked();
@@ -128,12 +130,14 @@ public slots:
     void on_connectType_currentIndexChanged(int);
     void on_writeTable_currentIndexChanged(int);
 
+
     void serialportWrite(QByteArray _qba,QModbusDataUnit _ModbusData);
     void request_read_modbus_cient_serialport(QModbusDataUnit _ModbusData,int _server_addr);
     void request_write_modbus_cient_serialport(QModbusDataUnit _ModbusData, int _server_addr);
 
     void request_read_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData,int _server_addr);
     void request_write_modbus_cient_ModbusClient(QModbusDataUnit _ModbusData, int _server_addr);
+
 
 	void request_read_modbus_cient(QModbusDataUnit _ModbusData,int _server_addr);
 	void request_write_modbus_cient(QModbusDataUnit _ModbusData, int _server_addr);
@@ -145,11 +149,13 @@ public slots:
     void on_relay_read_all();
     void on_relay_open_all();
     void on_relay_close_all();
+
     void onQModbusClient_errorOccurred(int _state);
 
     void on_modbusSerialport_ready_read();
 
-private :
+private:
+
 	QLabel* mRelaylabel[4];
 	QLabel* mRelayLabelStatus[4];
 	QPushButton* mRelayButton[4];
