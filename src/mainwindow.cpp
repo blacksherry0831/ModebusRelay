@@ -265,12 +265,13 @@ void MainWindow::on_connectType_currentIndexChanged(int index)
 
          if (!this->modbusSerialport->open(QIODevice::ReadWrite)) {
                 statusBar_showMessage(tr("Connect failed: ") + this->modbusSerialport->errorString(), 5000);
-                this->ui->connectButton->setText(tr("connect"));
+                QMessageBox::critical(NULL, tr("critical"),tr("cant open : ")+GetSerialPortName()+this->modbusSerialport->errorString(), QMessageBox::Yes , QMessageBox::Yes);
+                this->ui->connectButton->setText(tr("Connect"));
          } else {
                 ui->actionConnect->setEnabled(false);
                 ui->actionDisconnect->setEnabled(true);
                 this->on_relay_read_all();
-                this->ui->connectButton->setText(tr("disconnect"));
+                this->ui->connectButton->setText(tr("Disconnect"));
          }
      } else {
          this->modbusDeviceDisCconnected();
@@ -541,7 +542,12 @@ void MainWindow::request_write_modbus_cient_serialport(QModbusDataUnit _ModbusDa
 
      this->statusBar_showMessage(ModbusCvt::ByteArrayToHexString(_qba),0);
 
-     this->modbusSerialport->write(_qba);
+     if(this->modbusSerialport->isOpen()){
+             this->modbusSerialport->write(_qba);
+     }else{
+         QMessageBox::warning(NULL, tr("warning"),tr("serial port is not open"), QMessageBox::Yes , QMessageBox::Yes);
+     }
+
  }
 /**
  * @brief MainWindow::request_read_modbus_cient_ModbusClient

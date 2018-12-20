@@ -130,7 +130,6 @@ public slots:
     void on_connectType_currentIndexChanged(int);
     void on_writeTable_currentIndexChanged(int);
 
-
     void serialportWrite(QByteArray _qba,QModbusDataUnit _ModbusData);
     void request_read_modbus_cient_serialport(QModbusDataUnit _ModbusData,int _server_addr);
     void request_write_modbus_cient_serialport(QModbusDataUnit _ModbusData, int _server_addr);
