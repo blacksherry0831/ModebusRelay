@@ -952,7 +952,7 @@ void MainWindow::on_modbusSerialport_ready_read()
        if(this->modbusSerialportByte.size()>2){
 
        }
-
+        bool process_ui=true;
        if(respAddress_t==address){
                 if(respFuncCode==0x01){
                        //读线圈
@@ -984,13 +984,22 @@ void MainWindow::on_modbusSerialport_ready_read()
                 }else if(respFuncCode==0xF0){
 
 
-                }else{
+                }else if(respFuncCode==0x06){
 
+                    this->ui->comboBox_baudRateOpen->setCurrentIndex(this->ui->comboBox_baudRateModified->currentIndex());
+                    this->on_connectButton_clicked();
+
+
+                }else{
+                    process_ui==false;
                 }
 
        }
 
-       this->processRelayControls(modbusSerialportData);
+       if(process_ui){
+                  this->processRelayControls(modbusSerialportData);
+       }
+
        this->statusBar_showMessage(ModbusCvt::ByteArrayToHexString( this->modbusSerialportByte),0);
 
 }
