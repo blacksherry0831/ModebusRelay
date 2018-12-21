@@ -981,7 +981,7 @@ void MainWindow::on_modbusSerialport_ready_read()
                         modbusSerialportData.setStartAddress(start_addr_t);
                         modbusSerialportData.setValueCount(1);
                         modbusSerialportData.setValue(0,coil_v_t==-1);
-                }else if(respFuncCode==0xF0){
+                }else if(respFuncCode==WRITE_M_COIL){
 
 
                 }else if(respFuncCode==0x06){
@@ -991,7 +991,7 @@ void MainWindow::on_modbusSerialport_ready_read()
 
 
                 }else{
-                    process_ui==false;
+                    process_ui=false;
                 }
 
        }
